@@ -3,6 +3,7 @@ import sys
 import os
 import subprocess
 import urllib.request
+import urllib.parse
 import base64
 
 #Make sure we are running in Python 3
@@ -12,7 +13,7 @@ if sys.version_info<(3,0,0):
 
 #Functions
 def request(requestType, url, username, password):
-	if username or password == "":
+	if username == "" or password == "":
 		#No authentication
 		authentication = False
 	else:
@@ -20,13 +21,27 @@ def request(requestType, url, username, password):
 		authentication = True
 
 	if requestType == "GET":
+		#Encode the arguments
+		parse = urllib.parse.urlparse(url)
+		urlArgs = parse[4]
+		urlArgs = urlArgs.split("&")
+		arguments = []
+		for argument in urlArgs:
+			argument = argument.split("=", 1)
+			name = urllib.parse.quote_plus(argument[0])
+			value = urllib.parse.quote_plus(argument[1])
+			argument = name+"="+value
+			arguments.append(argument)
+		urlArgs = "&".join(arguments)
+		url = parse[0]+"://"+parse[1]+parse[2]+parse[3]+"?"+urlArgs+parse[5]
+
 		#Make the request
 		request = urllib.request.Request(url)
 		request.add_header("User-Agent", "PTTP")
 
 		#Do we need to add authentication to this request?
 		if authentication:
-			request.add_header('Authorization', b'Basic ' + base64.b64encode(username + b':' + password))
+			request.add_header('Authorization', b'Basic ' + base64.b64encode(str.encode(username)+b':'+str.encode(password)))
 
 		output = urllib.request.urlopen(request)
 		#Decode the output
@@ -43,7 +58,7 @@ def request(requestType, url, username, password):
 
 def get(option):
 	if option == "No authentication":
-		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to:' --ok-label='Send request'`")
+		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
 		url = url.split("\n")
 		url = url[len(url) - 1]
 		if url != "":
