@@ -1,0 +1,9 @@
+#!/bin/bash
+#Open in Python 3
+if which python3 >/dev/null; then
+	python3 pttp.py
+elif which python >/dev/null; then
+	python pttp.py
+else:
+	echo "PTTP cannot find Python 3."
+fi
