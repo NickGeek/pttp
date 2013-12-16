@@ -8,8 +8,11 @@ PTTP is designed for GNU/Linux but it will work with any operating system that h
 ###Dependencies
 * Python 3
 * Zenity (you should already have this installed as part of your desktop environment)
+
 ###Running PTTP
+
 ####Release version
 *There has not been a release version of PTTP yet.*
+
 ####Development version
 In your terminal go into the directory you have downloaded PTTP into and run "./PTTP" (without the quotes).
