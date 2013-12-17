@@ -15,4 +15,4 @@ PTTP is designed for GNU/Linux but it will work with any operating system that h
 *There has not been a release version of PTTP yet.*
 
 ####Development version
-In your terminal go into the directory you have downloaded PTTP into and run "./PTTP" (without the quotes).
+Go into the directory you downloaded PTTP to and run the file called "PTTP".
