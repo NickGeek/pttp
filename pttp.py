@@ -24,16 +24,17 @@ def request(requestType, url, username, password):
 		#Encode the arguments
 		parse = urllib.parse.urlparse(url)
 		urlArgs = parse[4]
-		urlArgs = urlArgs.split("&")
-		arguments = []
-		for argument in urlArgs:
-			argument = argument.split("=", 1)
-			name = urllib.parse.quote_plus(argument[0])
-			value = urllib.parse.quote_plus(argument[1])
-			argument = name+"="+value
-			arguments.append(argument)
-		urlArgs = "&".join(arguments)
-		url = parse[0]+"://"+parse[1]+parse[2]+parse[3]+"?"+urlArgs+parse[5]
+		if urlArgs != "":
+			urlArgs = urlArgs.split("&")
+			arguments = []
+			for argument in urlArgs:
+				argument = argument.split("=", 1)
+				name = urllib.parse.quote_plus(argument[0])
+				value = urllib.parse.quote_plus(argument[1])
+				argument = name+"="+value
+				arguments.append(argument)
+			urlArgs = "&".join(arguments)
+			url = parse[0]+"://"+parse[1]+parse[2]+parse[3]+"?"+urlArgs+parse[5]
 
 		#Make the request
 		request = urllib.request.Request(url)
