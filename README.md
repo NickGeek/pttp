@@ -5,6 +5,15 @@ PTTP (Python Text Transfer Protocol) is a Python 3 HTTP request tester. It is de
 
 PTTP is designed for GNU/Linux but it will work with any operating system that has Zenity and Python 3 installed (and added to its path).
 
+###Features
+* GET requests
+* GET requests with basic authentication
+* Graphical interface
+
+###Upcoming features
+* POST requests
+* POST requests with basic authentication
+
 ###Dependencies
 * Python 3
 * Zenity (you should already have this installed as part of your desktop environment)
