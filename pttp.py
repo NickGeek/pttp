@@ -89,6 +89,37 @@ def get(option):
 				menu()
 		else:
 			menu()
+	elif option == "No authentication (plain text)":
+		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
+		url = url.split("\n")
+		url = url[len(url) - 1]
+		if url != "":
+			request("GET", url, "", "")
+			os.system("zenity --text-info --title='PTTP' --filename='response.txt'")
+			os.remove("response.txt")
+			menu()
+		else:
+			menu()
+	elif option == "Basic authentication (plain text)":
+		credentials = subprocess.getoutput("echo `zenity --forms --title='PTTP' --text='HTTP Basic Authentication' --add-entry='Username' --add-password='Password'`")
+		credentials = credentials.split("\n")
+		credentials = credentials[len(credentials) - 1]
+		if credentials != "":
+			credentials = credentials.split("|")
+			username = credentials[0]
+			password = credentials[1]
+			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
+			url = url.split("\n")
+			url = url[len(url) - 1]
+			if url != "":
+				request("GET", url, username, password)
+				os.system("zenity --text-info --title='PTTP' --filename='response.txt'")
+				os.remove("response.txt")
+				menu()
+			else:
+				menu()
+		else:
+			menu()
 	else:
 		menu()
 
@@ -99,7 +130,7 @@ def menu():
 
 	if requestMenu == "GET":
 		#Do a GET request
-		getMenu = subprocess.getoutput("echo `zenity --list --title='PTTP' --text='Authentication' --column='Option' 'No authentication' 'Basic authentication'`")
+		getMenu = subprocess.getoutput("echo `zenity --list --title='PTTP' --text='Authentication' --column='Option' 'No authentication' 'Basic authentication' 'No authentication (plain text)' 'Basic authentication (plain text)'`")
 		getMenu = getMenu.split("\n")
 		getMenu = getMenu[len(getMenu) - 1]
 		get(getMenu)
