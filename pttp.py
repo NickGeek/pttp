@@ -77,7 +77,7 @@ def get(option):
 			credentials = credentials.split("|")
 			username = credentials[0]
 			password = credentials[1]
-			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to:' --ok-label='Send request'`")
+			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
 			url = url.split("\n")
 			url = url[len(url) - 1]
 			if url != "":
