@@ -85,7 +85,7 @@ def request(requestType, url, username, password, parameters):
 
 def get(option):
 	if option == "No authentication":
-		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://. Your arguments will be encoded, don't encode them yourself):' --ok-label='Send request'`")
+		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
 		url = url.split("\n")
 		url = url[len(url) - 1]
 		if url != "":
@@ -103,7 +103,7 @@ def get(option):
 			credentials = credentials.split("|")
 			username = credentials[0]
 			password = credentials[1]
-			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://. Your arguments will be encoded, don't encode them yourself):' --ok-label='Send request'`")
+			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
 			url = url.split("\n")
 			url = url[len(url) - 1]
 			if url != "":
@@ -116,7 +116,7 @@ def get(option):
 		else:
 			menu()
 	elif option == "No authentication (plain text)":
-		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://. Your arguments will be encoded, don't encode them yourself):' --ok-label='Send request'`")
+		url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
 		url = url.split("\n")
 		url = url[len(url) - 1]
 		if url != "":
@@ -134,7 +134,7 @@ def get(option):
 			credentials = credentials.split("|")
 			username = credentials[0]
 			password = credentials[1]
-			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://. Your arguments will be encoded, don't encode them yourself):' --ok-label='Send request'`")
+			url = subprocess.getoutput("echo `zenity --entry --title='PTTP' --text='URL to send the request to (must start with http:// or https://):' --ok-label='Send request'`")
 			url = url.split("\n")
 			url = url[len(url) - 1]
 			if url != "":
@@ -248,13 +248,23 @@ def menu():
 		getMenu = subprocess.getoutput("echo `zenity --list --title='PTTP' --text='Authentication/response:' --column='Option' 'No authentication' 'Basic authentication' 'No authentication (plain text)' 'Basic authentication (plain text)'`")
 		getMenu = getMenu.split("\n")
 		getMenu = getMenu[len(getMenu) - 1]
-		get(getMenu)
+		try:
+			get(getMenu)
+		except(urllib.error.HTTPError, urllib.error.URLError) as error:
+			os.system("zenity --error --title='PTTP' --text='"+format(error)+"'")
+		except:
+			os.system("zenity --error --title='PTTP' --text='Oops! There was an error in your request.'")
 	elif requestMenu == "POST":
 		#Do a POST request
 		postMenu = subprocess.getoutput("echo `zenity --list --title='PTTP' --text='Authentication/response:' --column='Option' 'No authentication' 'Basic authentication' 'No authentication (plain text)' 'Basic authentication (plain text)'`")
 		postMenu = postMenu.split("\n")
 		postMenu = postMenu[len(postMenu) - 1]
-		post(postMenu)
+		try:
+			post(postMenu)
+		except(urllib.error.HTTPError, urllib.error.URLError) as error:
+			os.system("zenity --error --title='PTTP' --text='"+format(error)+"'")
+		except:
+			os.system("zenity --error --title='PTTP' --text='Oops! There was an error in your request.'")
 	else:
 		sys.exit()
 
