@@ -2,7 +2,7 @@
 import sys
 #Make sure we are running in Python 3 before importing more stuff
 if sys.version_info<(3,0,0):
-	print("You need Python 3 to run PTTP.")
+	os.system("zenity --error --title='PTTP' --text='You need Python 3 to run PTTP'")
 	sys.exit()
 
 import os
